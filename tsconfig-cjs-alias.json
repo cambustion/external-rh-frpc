@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig-cjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/ts/*"],
+    },
+  },
+}

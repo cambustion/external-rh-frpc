@@ -1,0 +1,36 @@
+# Python
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.ruff_cache/
+
+
+# Backup Files
+*.bkp
+
+
+# Emacs
+*.~undo-tree~
+\#*\#
+
+
+# Javascript, Node.js and Typescript
+
+/.log
+
+*.tsbuildinfo
+
+node_modules
+
+# https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+/.rh-trusted
