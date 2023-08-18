@@ -44,7 +44,7 @@
     "espower-typescript": "^10.0.1",
     "mocha": "^10.2.0",
     "power-assert": "^1.6.1",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.2",
     "ts-proto": "^1.156.7",
     "tsc-alias": "1.8.7",
     "type-expand": "^1.0.0",
