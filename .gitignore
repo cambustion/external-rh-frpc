@@ -20,6 +20,9 @@ __pycache__/
 
 /.log
 
+/buildcache
+/dist
+
 *.tsbuildinfo
 
 node_modules
