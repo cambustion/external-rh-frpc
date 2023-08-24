@@ -25,7 +25,7 @@
     "extends": "./eslint.config.cjs"
   },
   "dependencies": {
-    "@rh-ogorod/js-configs": "workspace:*",
+    "@ramblehead/js-configs": "workspace:*",
     "uuid": "^9.0.0",
     "~": "link:./src/ts"
   },

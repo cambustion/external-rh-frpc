@@ -1,5 +1,5 @@
 {
-  "extends": "@rh-ogorod/js-configs/node/tsconfig.json",
+  "extends": "@ramblehead/js-configs/node/tsconfig.json",
   "compilerOptions": {
     "composite": true,
     "rootDir": "src/ts",
