@@ -41,7 +41,7 @@ export type RpcResHead = {
 };
 
 type IsAny<T> = 0 extends 1 & T ? true : false;
-type IsUndefined<T> = T extends undefined ? true : false;
+type HasUndefined<T> = undefined extends T ? true : false;
 
 /* eslint-disable @typescript-eslint/indent */
 
@@ -50,7 +50,7 @@ export type RpcReq<Params> = {
   id: string;
 } & (IsAny<Params> extends true
   ? { params: Params }
-  : IsUndefined<Params> extends true
+  : HasUndefined<Params> extends true
   ? { params?: Params }
   : { params: Params });
 
@@ -69,7 +69,7 @@ export type RpcResOkResult<Data> = {
   type: 'ok';
 } & (IsAny<Data> extends true
   ? { data: Data }
-  : IsUndefined<Data> extends true
+  : HasUndefined<Data> extends true
   ? { data?: Data }
   : { data: Data });
 
@@ -79,7 +79,7 @@ export type RpcResErrResult<Data> = {
   message: string;
 } & (IsAny<Data> extends true
   ? { data: Data }
-  : IsUndefined<Data> extends true
+  : HasUndefined<Data> extends true
   ? { data?: Data }
   : { data: Data });
 
