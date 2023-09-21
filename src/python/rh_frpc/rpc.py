@@ -182,18 +182,26 @@ def make_rpc_req_handlers(
                 print("repose if ******************", params)
                 data_ok = await handler(params)
 
-                res_data = encode_res_ok(
+                res_result = (
+                    {
+                        "type": "ok",
+                    }
+                    if data_ok is None
+                    else {
+                        "type": "ok",
+                        "data": data_ok,
+                    }
+                )
+
+                res = encode_res_ok(
                     {
                         "id": req_id,
-                        "result": {
-                            "type": "ok",
-                            "data": data_ok,
-                        },
+                        "result": res_result,
                     },
                 )
 
             except RpcHandlerError as reason:
-                res_data = encode_res_err(
+                res = encode_res_err(
                     {
                         "id": req_id,
                         "result": {
@@ -206,7 +214,7 @@ def make_rpc_req_handlers(
                 )
 
             except Exception:  # noqa: BLE001
-                res_data = encode_res_err(
+                res = encode_res_err(
                     {
                         "id": req_id,
                         "result": {
@@ -219,7 +227,7 @@ def make_rpc_req_handlers(
                 )
 
         else:
-            res_data = encode_res_err(
+            res = encode_res_err(
                 {
                     "id": req_id,
                     "result": {
@@ -232,7 +240,7 @@ def make_rpc_req_handlers(
             )
 
         try:
-            await publish(res_data)
+            await publish(res)
         except Exception as cause:  # noqa: BLE001
             if on_error:
                 on_error(cause)
