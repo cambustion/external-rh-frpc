@@ -79,8 +79,8 @@ class ResOkResultHead(TypedDict):
     type: Literal["ok"]
 
 
-class ResOkResult(ResOkResultHead):
-    data: Any | None
+# class ResOkResult(ResOkResultHead):
+#     data: Any | None
 
 
 class ResOkResultWithData(ResOkResultHead, Generic[TypeResData]):
@@ -91,8 +91,8 @@ class ResOkHead(TypedDict):
     id: str
 
 
-class ResOk(ResOkHead):
-    result: ResOkResult
+# class ResOk(ResOkHead):
+#     result: ResOkResult
 
 
 class ResOkWithData(ResOkHead, Generic[TypeResData]):
@@ -105,8 +105,8 @@ class ResErrResultHead(TypedDict):
     message: str
 
 
-class ResErrResult(ResErrResultHead):
-    data: Any | None
+# class ResErrResult(ResErrResultHead):
+#     data: Any | None
 
 
 class ResErrResultWithData(ResErrResultHead, Generic[TypeResData]):
@@ -117,8 +117,8 @@ class ResErrHead(TypedDict):
     id: str
 
 
-class ResErr(ResErrHead):
-    result: ResErrResult
+# class ResErr(ResErrHead):
+#     result: ResErrResult
 
 
 class ResErrWithData(ResErrHead, Generic[TypeResData]):
