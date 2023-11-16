@@ -25,7 +25,7 @@
     "extends": "./eslint.config.cjs"
   },
   "dependencies": {
-    "uuid": "^9.0.0",
+    "uuid": "^9.0.1",
     "~": "link:./src/ts"
   },
   "devDependencies": {
