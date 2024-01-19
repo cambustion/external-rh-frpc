@@ -4,12 +4,9 @@ from collections.abc import Awaitable, Callable
 from enum import Enum
 from typing import (
     Any,
-    Generic,
     Literal,
     Self,
     TypedDict,
-    TypeVar,
-    cast,
 )
 
 
@@ -56,47 +53,43 @@ class PubSub(TypedDict):
     publish: Publish
 
 
-TypeReqParams = TypeVar("TypeReqParams", bound=TypedDict)
-
-
 class ReqHead(TypedDict):
     method: str
     id: str
 
 
-class Req(ReqHead):
-    params: Any | None
+class ReqWithoutParams(ReqHead):
+    pass
 
 
-class ReqWithParams(ReqHead, Generic[TypeReqParams]):
-    params: TypeReqParams
+class ReqWithParams(ReqHead):
+    params: Any
 
 
-TypeResData = TypeVar("TypeResData", bound=TypedDict)
+Req = ReqWithParams | ReqWithoutParams
 
 
 class ResOkResultHead(TypedDict):
     type: Literal["ok"]
 
 
-# class ResOkResult(ResOkResultHead):
-#     data: Any | None
+class ResOkResultWithoutData(ResOkResultHead):
+    pass
 
 
-class ResOkResultWithData(ResOkResultHead, Generic[TypeResData]):
-    data: TypeResData
+class ResOkResultWithData(ResOkResultHead):
+    data: Any
+
+
+ResOkResult = ResOkResultWithoutData | ResOkResultWithData
 
 
 class ResOkHead(TypedDict):
     id: str
 
 
-# class ResOk(ResOkHead):
-#     result: ResOkResult
-
-
-class ResOkWithData(ResOkHead, Generic[TypeResData]):
-    result: ResOkResultWithData[TypeResData]
+class ResOk(ResOkHead):
+    result: ResOkResultWithoutData | ResOkResultWithData
 
 
 class ResErrResultHead(TypedDict):
@@ -105,31 +98,27 @@ class ResErrResultHead(TypedDict):
     message: str
 
 
-# class ResErrResult(ResErrResultHead):
-#     data: Any | None
+class ResErrResultWithoutData(ResErrResultHead):
+    pass
 
 
-class ResErrResultWithData(ResErrResultHead, Generic[TypeResData]):
-    data: TypeResData
+class ResErrResultWithData(ResErrResultHead):
+    data: Any
 
 
 class ResErrHead(TypedDict):
     id: str
 
 
-# class ResErr(ResErrHead):
-#     result: ResErrResult
-
-
-class ResErrWithData(ResErrHead, Generic[TypeResData]):
-    result: ResErrResultWithData[TypeResData]
+class ResErr(ResErrHead):
+    result: ResErrResultWithoutData | ResErrResultWithData
 
 
 ReqHeadDecode = Callable[[Buf], ReqHead]
 
 ReqDecode = Callable[[Buf], Req]
-ResOkEncode = Callable[[ResOkWithData[Any]], Buf]
-ResErrEncode = Callable[[ResErrWithData[Any]], Buf]
+ResOkEncode = Callable[[ResOk], Buf]
+ResErrEncode = Callable[[ResErr], Buf]
 
 
 HandlerConverters = tuple[ReqDecode, ResOkEncode, ResErrEncode]
@@ -175,14 +164,12 @@ def make_rpc_req_handlers(
         if req_method in req_methods:
             try:
                 req = decode_req(req_data)
-                params = (
-                    cast(ReqWithParams[Any], req)["params"] if "params" in req else None
-                )
+                params = req["params"] if "params" in req else None
 
                 print("repose if ******************", params)
                 data_ok = await handler(params)
 
-                res_result = (
+                res_result: ResOkResult = (
                     {
                         "type": "ok",
                     }
