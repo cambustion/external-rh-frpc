@@ -1,4 +1,5 @@
 # Hey Emacs, this is -*- coding: utf-8; mode: python -*-
+from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
 from enum import Enum
@@ -164,7 +165,7 @@ def make_rpc_req_handlers(
         if req_method in req_methods:
             try:
                 req = decode_req(req_data)
-                params = req["params"] if "params" in req else None
+                params = req.get("params", None)
 
                 print("repose if ******************", params)
                 data_ok = await handler(params)
@@ -228,7 +229,7 @@ def make_rpc_req_handlers(
 
         try:
             await publish(res)
-        except Exception as cause:  # noqa: BLE001
+        except Exception as cause:
             if on_error:
                 on_error(cause)
             else:
